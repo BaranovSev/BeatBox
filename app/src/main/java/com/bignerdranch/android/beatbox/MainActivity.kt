@@ -24,10 +24,15 @@ class MainActivity : AppCompatActivity() {
             adapter = SoundAdapter(beatBox.sounds)
         }
     }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        beatBox.release() // освобождаем ресурсы SoundPool
+    }
     private inner class SoundHolder(private val binding: ListItemSoundBinding):
             RecyclerView.ViewHolder(binding.root){
                 init {
-                    binding.viewModel = SoundViewModel()
+                    binding.viewModel = SoundViewModel(beatBox)
                 }
         fun bind(sound:Sound){
             binding.apply{
